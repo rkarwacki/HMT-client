@@ -17,7 +17,6 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
   const [loadingRecipe, setLoadingRecipe] = useState(true);
 
   function handlePortionIncrease() {
-    console.log("handling increase");
     setPortions(portions + 1);
   }
 
@@ -29,7 +28,6 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
 
   useEffect(() => {
     if (baseIngredients) {
-      console.log("performing recalculation");
       recalculateIngredientAmountsBasedOnPortions();
     }
   }, [portions]);
@@ -37,7 +35,6 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
   function recalculateIngredientAmountsBasedOnPortions() {
     let recalculatedIngredients = baseIngredients.map((ingredient) => {
       let recalculatedIngredient = { ...ingredient };
-      console.log("recalculatedIngredient:" + recalculatedIngredient);
       recalculatedIngredient.measurementAmount = new Fraction(
         ingredient.measurementAmount
       )
@@ -58,7 +55,6 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
   useEffect(() => {
     async function fetchRecipe() {
       if (open && recipeId) {
-        console.log("fetch");
         try {
           await axios
             .get("http://192.168.0.242:8080/api/recipes/" + recipeId)
@@ -85,6 +81,8 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
     return () => {
       setRecipe({ category: {} });
       setLoadingRecipe(true);
+      setCalculatedIngredients(null);
+      setBaseIngredients(null);
     };
   }, [open, recipeId]);
 
