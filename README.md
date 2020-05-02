@@ -1,5 +1,7 @@
-A simple client for Household Management Tool Server
+A simple client for [Household Management Tool Server](https://github.com/rkarwacki/hmt)
 
-npm start
-Runs the app in the development mode.
-Open http://localhost:3000 to view it in the browser.
+### `npm start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
