@@ -2,7 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "./Navbar.js";
 import RecipeList from "./recipe/RecipeList.js";
-import "./App.css";
+import "./App.scss";
 
 function App() {
   return (

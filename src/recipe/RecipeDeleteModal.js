@@ -23,15 +23,15 @@ export default function RecipeDeleteModal({
   return (
       <Modal show={open} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm deletion</Modal.Title>
+          <Modal.Title>Potwierdź usunięcie</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you really want to delete this recipe?</Modal.Body>
+        <Modal.Body>Czy na pewno chcesz usunąć ten przepis?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Anuluj
           </Button>
           <Button variant="danger" onClick={handleDelete}>
-            Delete
+            Usuń
           </Button>
         </Modal.Footer>
       </Modal>

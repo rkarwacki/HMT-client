@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
-// import RecipeEditForm from "./RecipeEditForm.js";
+import { Button, Modal, Form, Col } from "react-bootstrap";
+import RecipeIngredients from "./RecipeIngredients"
+import RecipeSteps from "./RecipeSteps"
 import axios from "axios";
 
 export default function RecipeModal({
@@ -61,18 +62,17 @@ export default function RecipeModal({
     return () => {
       setLoadingRecipe(true);
       setLoadingCategories(true);
-      setRecipe({category: {}})
+      setRecipe({ category: {} });
     };
   }, [open, recipeId, modalAction]);
 
   useEffect(() => {
-    if (modalAction === 'ADD' && categories[0]){
+    if (modalAction === "ADD" && categories[0]) {
       setRecipe({ ...recipe, category: { id: categories[0].id } });
     }
-    
   }, [modalAction, categories]);
-  //todo 
-  // }, [modalAction, categories, recipe]); causes infinite loop because recipe is changing in useEffect 
+  //todo
+  // }, [modalAction, categories, recipe]); causes infinite loop because recipe is changing in useEffect
   // move categories to separate object?
 
   function updateRecipeProperty(event) {
@@ -111,15 +111,15 @@ export default function RecipeModal({
     loading = loading || loadingRecipe;
   }
   if (loading) {
-    modalBody = <Modal.Body>Loading...</Modal.Body>;
+    modalBody = <Modal.Body>Ładowanie...</Modal.Body>;
   } else if (hasError) {
-  modalBody = <Modal.Body>Error</Modal.Body>;
+    modalBody = <Modal.Body>Błąd</Modal.Body>;
   } else {
     modalBody = (
       <Modal.Body>
         <Form id="recipeForm">
           <Form.Group controlId="title">
-            <Form.Label>Recipe title</Form.Label>
+            <Form.Label>Nazwa przepisu</Form.Label>
             <Form.Control
               required
               size="lg"
@@ -130,32 +130,48 @@ export default function RecipeModal({
               onChange={updateRecipeProperty}
             />
           </Form.Group>
-          <Form.Group controlId="kcal">
-            <Form.Label>Kcal</Form.Label>
-            <Form.Control
-              required
-              size="text"
-              name="kcal"
-              type="text"
-              placeholder="kcal"
-              defaultValue={recipe.kcal}
-              onChange={updateRecipeProperty}
-            />
-          </Form.Group>
-          <Form.Group controlId="category">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              as="select"
-              defaultValue={recipe.category.id}
-              onChange={updateRecipeCategory}
-            >
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group>
+          <Form.Row>
+            <Form.Group as={Col} controlId="category">
+              <Form.Label>Kategoria</Form.Label>
+              <Form.Control
+                as="select"
+                defaultValue={recipe.category.id}
+                onChange={updateRecipeCategory}
+              >
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="kcal">
+              <Form.Label>Kcal na porcję</Form.Label>
+              <Form.Control
+                required
+                size="text"
+                name="kcal"
+                type="text"
+                placeholder="kcal"
+                defaultValue={recipe.kcal}
+                onChange={updateRecipeProperty}
+              />
+            </Form.Group>
+            <Form.Group as={Col} controlId="portions">
+              <Form.Label>Porcje</Form.Label>
+              <Form.Control
+                required
+                size="text"
+                name="portions"
+                type="text"
+                placeholder="portions"
+                defaultValue={recipe.portions}
+                onChange={updateRecipeProperty}
+              />
+            </Form.Group>
+          </Form.Row>
+          <RecipeIngredients ingredients={recipe.ingredients}/>          
+          <RecipeSteps steps={recipe.steps}/>
         </Form>
       </Modal.Body>
     );
@@ -168,7 +184,7 @@ export default function RecipeModal({
       form="recipeForm"
       onClick={(e) => handleUpdate(e)}
     >
-      Save Changes
+      Zapisz zmiany
     </Button>
   );
 
@@ -180,24 +196,28 @@ export default function RecipeModal({
         form="recipeForm"
         onClick={(e) => handleAdd(e)}
       >
-        Add recipe
+        Dodaj przepis
       </Button>
     );
   }
-    return (
-      <>
-        <Modal show={open} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Recipe</Modal.Title>
-          </Modal.Header>
-          {modalBody}
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            {submitButton}
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
+  return (
+    <>
+      <Modal
+        show={open}
+        onHide={handleClose}
+        dialogClassName="modal-75w"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Przepis</Modal.Title>
+        </Modal.Header>
+        {modalBody}
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Zamknij
+          </Button>
+          {submitButton}
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }

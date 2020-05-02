@@ -15,7 +15,7 @@ export default function RecipeEditForm({ recipe, categories }) {
         />
       </Form.Group>
       <Form.Group controlId="kcal">
-        <Form.Label>Kcal</Form.Label>
+        <Form.Label>Kcal na porcję</Form.Label>
         <Form.Control
           required
           size="text"
