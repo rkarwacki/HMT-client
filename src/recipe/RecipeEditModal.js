@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Col } from "react-bootstrap";
-import RecipeIngredients from "./RecipeIngredients"
-import RecipeSteps from "./RecipeSteps"
+import RecipeIngredients from "./RecipeIngredients";
+import RecipeSteps from "./RecipeSteps";
 import axios from "axios";
 
 export default function RecipeModal({
@@ -68,19 +68,52 @@ export default function RecipeModal({
 
   useEffect(() => {
     if (modalAction === "ADD" && categories[0]) {
-      setRecipe({ ...recipe, category: { id: categories[0].id } });
+      setRecipe({
+        ...recipe,
+        category: { id: categories[0].id },
+        steps: [],
+        ingredients: [],
+      });
     }
+    // eslint-disable-next-line
   }, [modalAction, categories]);
   //todo
   // }, [modalAction, categories, recipe]); causes infinite loop because recipe is changing in useEffect
   // move categories to separate object?
 
   function updateRecipeProperty(event) {
+    console.log("update property");
     setRecipe({ ...recipe, [event.target.name]: event.target.value });
   }
 
   function updateRecipeCategory(event) {
     setRecipe({ ...recipe, category: { id: event.target.value } });
+  }
+
+  const mergeArrayWithObject = (arr, obj) => {
+    return arr.map((t) => (t.id === obj.id ? obj : t));
+  };
+
+  // TODO extract common code into another function
+  function updateIngredientCallback(ingredientId, event) {
+    let ingredients = recipe.ingredients;
+    let ingredientIndex = ingredients.findIndex((ri) => ri.id === ingredientId);
+    let inredientToUpdate = ingredients[ingredientIndex];
+    inredientToUpdate[event.target.name] = event.target.value;
+    const updatedIngredients = mergeArrayWithObject(
+      ingredients,
+      inredientToUpdate
+    );
+    setRecipe({ ...recipe, ingredients: updatedIngredients });
+  }
+
+  function updateStepCallback(stepId, event) {
+    let steps = recipe.steps;
+    let stepIndex = steps.findIndex((rs) => rs.id === stepId);
+    let stepToUpdate = steps[stepIndex];
+    stepToUpdate[event.target.name] = event.target.value;
+    const updatedSteps = mergeArrayWithObject(steps, stepToUpdate);
+    setRecipe({ ...recipe, steps: updatedSteps });
   }
 
   function handleUpdate(e) {
@@ -170,8 +203,20 @@ export default function RecipeModal({
               />
             </Form.Group>
           </Form.Row>
-          <RecipeIngredients ingredients={recipe.ingredients}/>          
-          <RecipeSteps steps={recipe.steps}/>
+          <Form.Label column="lg" lg={1}>
+            Składniki
+          </Form.Label>
+          <RecipeIngredients
+            ingredients={recipe.ingredients}
+            updateIngredientCallback={updateIngredientCallback}
+          />
+          <Form.Label column="lg" lg={1}>
+            Kroki
+          </Form.Label>
+          <RecipeSteps
+            steps={recipe.steps}
+            updateStepCallback={updateStepCallback}
+          />
         </Form>
       </Modal.Body>
     );
@@ -202,11 +247,7 @@ export default function RecipeModal({
   }
   return (
     <>
-      <Modal
-        show={open}
-        onHide={handleClose}
-        dialogClassName="modal-75w"
-      >
+      <Modal show={open} onHide={handleClose} dialogClassName="modal-75w">
         <Modal.Header closeButton>
           <Modal.Title>Przepis</Modal.Title>
         </Modal.Header>
