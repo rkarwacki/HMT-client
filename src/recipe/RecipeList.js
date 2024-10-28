@@ -77,7 +77,7 @@ function RecipeList() {
     async function fetchData() {
       try {
         await axios
-          .get("http://192.168.0.242:8080/api/recipes")
+          .get("http://localhost:8080/api/recipes")
           .then(function (response) {
             setRecipes(response.data);
             setLoading(false);

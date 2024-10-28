@@ -12,7 +12,7 @@ export default function RecipeDeleteModal({
   function handleDelete(e) {
     e.preventDefault();
     axios
-      .delete("http://192.168.0.242:8080/api/recipes/" + recipeId)
+      .delete("http://localhost:8080/api/recipes/" + recipeId)
       .then(handleClose)
       .then(handleListRefresh)
       .catch(function (error) {

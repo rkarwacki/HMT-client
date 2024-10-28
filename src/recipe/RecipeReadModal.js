@@ -57,7 +57,7 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
       if (open && recipeId) {
         try {
           await axios
-            .get("http://192.168.0.242:8080/api/recipes/" + recipeId)
+            .get("http://localhost:8080/api/recipes/" + recipeId)
             .then(function (response) {
               setRecipe(response.data);
               setPortions(response.data.portions);
@@ -121,9 +121,7 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
     if (measurementAmountString.includes(" i ")) {
       measurementAmountString = measurementAmountString.replace(" i ", " ");
     }
-    let measurementAmount = new Fraction(measurementAmountString).toFraction(
-      true
-    );
+    let measurementAmount = new Fraction(measurementAmountString).toFraction(true);
 
     return [measurementAmount, measurementUnit];
   }
@@ -132,6 +130,7 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
   if (loadingRecipe) {
     modalBody = <Modal.Body>Ładowanie...</Modal.Body>;
   } else if (hasError) {
+
     modalBody = <Modal.Body>Błąd</Modal.Body>;
   } else {
     modalBody = (

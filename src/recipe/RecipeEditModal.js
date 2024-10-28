@@ -22,7 +22,7 @@ export default function RecipeModal({
       if (recipeId && open && modalAction === "EDIT") {
         try {
           await axios
-            .get("http://192.168.0.242:8080/api/recipes/" + recipeId)
+            .get("http://localhost:8080/api/recipes/" + recipeId)
             .then(function (response) {
               setRecipe(response.data);
               setLoadingRecipe(false);
@@ -41,7 +41,7 @@ export default function RecipeModal({
       if (open) {
         try {
           await axios
-            .get("http://192.168.0.242:8080/api/recipeCategories")
+            .get("http://localhost:8080/api/recipeCategories")
             .then(function (response) {
               setCategories(response.data);
               setLoadingCategories(false);
@@ -119,7 +119,7 @@ export default function RecipeModal({
   function handleUpdate(e) {
     e.preventDefault();
     axios
-      .put("http://192.168.0.242:8080/api/recipes", recipe)
+      .put("http://localhost:8080/api/recipes", recipe)
       .then(handleClose)
       .then(handleListRefresh)
       .catch(function (error) {
@@ -130,7 +130,7 @@ export default function RecipeModal({
   function handleAdd(e) {
     e.preventDefault();
     axios
-      .post("http://192.168.0.242:8080/api/recipes", recipe)
+      .post("http://localhost:8080/api/recipes", recipe)
       .then(handleClose)
       .then(handleListRefresh)
       .catch(function (error) {
