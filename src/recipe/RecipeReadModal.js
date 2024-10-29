@@ -191,16 +191,12 @@ export default function RecipeReadModal({ recipeId, open, handleClose }) {
             </tbody>
           </Table>
           <Row className="readRecipeInfo">
-            <Col sm>Kroki</Col>
+            <Col sm>Przygotowanie</Col>
           </Row>
           <Container>
-            {recipe.steps.map((step, index) => {
-              return (
-                <div key={step.stepDescription}>
-                  {index + 1}. {step.stepDescription}
+                <div>
+                  {recipe.preparationDescription}
                 </div>
-              );
-            })}
           </Container>
         </Container>
       </Modal.Body>
