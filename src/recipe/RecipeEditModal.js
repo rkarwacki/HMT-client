@@ -210,13 +210,16 @@ export default function RecipeModal({
             ingredients={recipe.ingredients}
             updateIngredientCallback={updateIngredientCallback}
           />
-          <Form.Label column="lg" lg={1}>
-            Kroki
-          </Form.Label>
-          <RecipeSteps
-            steps={recipe.steps}
-            updateStepCallback={updateStepCallback}
-          />
+            <Form.Label column="lg" lg={1}>
+              Przygotowanie
+            </Form.Label>
+            <Form.Control
+              type="text"
+              as="textarea"
+              defaultValue={recipe.preparationDescription}
+              name="preparationDescription"
+              onChange={updateRecipeProperty}
+            />
         </Form>
       </Modal.Body>
     );
