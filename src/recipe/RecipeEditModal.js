@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Col } from "react-bootstrap";
 import RecipeIngredients from "./RecipeIngredients";
-import RecipeSteps from "./RecipeSteps";
 import axios from "axios";
 
 export default function RecipeModal({
